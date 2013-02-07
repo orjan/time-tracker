@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Raven.Client;
+using TimeTracker.Models;
 
 namespace TimeTracker.Controllers
 {
@@ -24,6 +25,16 @@ namespace TimeTracker.Controllers
 
                 if (DocumentSession != null)
                     DocumentSession.SaveChanges();
+            }
+        }
+
+        public CustomPrincipal Principal
+        {
+            get
+            {
+                if (HttpContext.User is CustomPrincipal)
+                    return (CustomPrincipal) HttpContext.User;
+                return null;
             }
         }
     }

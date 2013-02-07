@@ -8,15 +8,14 @@ namespace TimeTracker.Controllers
     {
         public ActionResult Index()
         {
+            /*
             DocumentSession.Store(new TimeLog
                                       {
                                           StartTime = DateTime.Now,
                                           EndTime = DateTime.Now.AddHours(2)
                                       });
-
-            var query = DocumentSession.Query<TimeLog>();
-
-            return View(query);
+            */
+            return Content(Principal.Id.ToString());
         }
     }
 }

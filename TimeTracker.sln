@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{081519
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTracker.Test", "TimeTracker.Test\TimeTracker.Test.csproj", "{9100F75C-30D4-492B-8DD9-09CE60C1640C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{827417DD-30D4-4BBF-9FD6-A80754BDE07A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{827417DD-30D4-4BBF-9FD6-A80754BDE07A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{827417DD-30D4-4BBF-9FD6-A80754BDE07A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9100F75C-30D4-492B-8DD9-09CE60C1640C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9100F75C-30D4-492B-8DD9-09CE60C1640C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9100F75C-30D4-492B-8DD9-09CE60C1640C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9100F75C-30D4-492B-8DD9-09CE60C1640C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

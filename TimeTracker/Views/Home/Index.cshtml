@@ -1,13 +1,11 @@
 ﻿@using TimeTracker.Models
-@model IEnumerable<TimeLog>
+@model CustomPrincipal
 
 @{
     ViewBag.Title = "Index";
 }
 
-@foreach (var m in Model)
-{
-    <p>@m.Id</p>
-}
+
+@User.Identity.Name
 
 <h2>Index</h2>
