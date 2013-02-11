@@ -12,10 +12,10 @@ namespace TimeTracker.Controllers
     {
         public ActionResult Index()
         {
-            IOrderedQueryable<TotalWorkByUserAndDay.Result> logs =
-                DocumentSession.Query<TotalWorkByUserAndDay.Result, TotalWorkByUserAndDay>()
-                               .Where(x => x.UserId == Principal.Id)
-                               .OrderByDescending(x => x.Date);
+            var logs =
+                DocumentSession.Query<TimeLog>()
+                               .Where(x => (x.UserId == Principal.Id)).OrderByDescending(z=>z.StartTime);
+
 
             return View(logs);
         }

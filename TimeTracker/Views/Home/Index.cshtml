@@ -1,10 +1,25 @@
 ﻿@using TimeTracker.ViewModels
-@model dynamic
+@model IEnumerable<TimeTracker.Models.TimeLog>
 @{
 
     ViewBag.Title = "Index";
 }
 
 <h1>Time time time</h1>
-        
+
 @Html.Partial("SubmitTimeLog", new ShortTimeLogForm())
+
+@foreach (var m in Model)
+{
+        <strong>@m.StartTime.Date.ToShortDateString()</strong><br />
+    
+    <div class="well">
+        <strong>@m.StartTime.ToShortTimeString()</strong><i class="icon-chevron-right"></i>
+        <strong>@m.StopTime.ToShortTimeString()</strong><i class="icon-chevron-right"></i>
+        <strong>@m.Time.TotalHours.ToString("N1")h</strong>
+        <button class="close"><i class="icon-trash"></i></button>
+        
+    </div>
+        
+        
+}
