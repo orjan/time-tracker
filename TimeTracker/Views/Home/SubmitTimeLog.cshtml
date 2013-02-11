@@ -1,12 +1,8 @@
 ﻿@model TimeTracker.ViewModels.ShortTimeLogForm
 
-@using (Html.BeginForm("RegisterTime", "Home", FormMethod.Post))
+@using (Html.BeginForm("RegisterTime", "Home", FormMethod.Post, new { @class = "form-inline" }))
 {
-    @Html.ValidationSummary(true)
-
-    @Html.LabelFor(model => model.Input)
     @Html.EditorFor(model => model.Input)
-    @Html.ValidationMessageFor(model => model.Input)
         
-    <input type="submit" value="Should I stay or should I go?" />
+    <button type="submit" class="btn">Add some hours</button>
 }
