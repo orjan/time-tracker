@@ -1,39 +1,10 @@
-﻿@using TimeTracker.Indexes
-@using TimeTracker.Models
+﻿@using TimeTracker.ViewModels
 @model dynamic
 @{
 
     ViewBag.Title = "Index";
 }
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Bootstrap 101 Template</title>
-        <link href="/Content/bootstrap.min.css" rel="stylesheet" media="screen">
-    </head>
-    <body>
-        <h1>Time time time</h1>
+<h1>Time time time</h1>
         
-        @using (Html.BeginForm("RegisterTime", "Home", FormMethod.Post))
-        {
-            <input type="submit" value="Should I stay or should I go?" />
-        }
-        
-        <table>
-            <thead>
-                <tr><th>Start</th><th>End</th></tr>
-            </thead>
-            <tbody>
-                @foreach (TotalWorkByUserAndDay.Result log in Model)
-                {
-                    <tr><td>@log.Date</td><td>@log.TotalAmountOfWork</td></tr>
-                }
-
-            </tbody>
-        </table>
-
-        <script src="http://code.jquery.com/jquery-latest.js"> </script>
-        <script src="/Scripts/bootstrap.min.js"> </script>
-    </body>
-</html>
+@Html.Partial("SubmitTimeLog", new ShortTimeLogForm())

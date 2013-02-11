@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TimeTracker.Indexes;
 using TimeTracker.Models;
+using TimeTracker.ViewModels;
 
 namespace TimeTracker.Controllers
 {
@@ -12,7 +12,7 @@ namespace TimeTracker.Controllers
     {
         public ActionResult Index()
         {
-            var logs =
+            IOrderedQueryable<TotalWorkByUserAndDay.Result> logs =
                 DocumentSession.Query<TotalWorkByUserAndDay.Result, TotalWorkByUserAndDay>()
                                .Where(x => x.UserId == Principal.Id)
                                .OrderByDescending(x => x.Date);
@@ -21,9 +21,9 @@ namespace TimeTracker.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegisterTime()
+        public ActionResult RegisterTime(ShortTimeLogForm timeLogFormat)
         {
-            DateTime currentTime = DateTime.Now;
+            DateTime currentTime = timeLogFormat.Parse().CalculateDateTime();
 
             TimeLog timeLog = DocumentSession.Query<TimeLog>()
                                              .SingleOrDefault(

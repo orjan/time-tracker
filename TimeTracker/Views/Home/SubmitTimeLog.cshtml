@@ -1,0 +1,12 @@
+﻿@model TimeTracker.ViewModels.ShortTimeLogForm
+
+@using (Html.BeginForm("RegisterTime", "Home", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+
+    @Html.LabelFor(model => model.Input)
+    @Html.EditorFor(model => model.Input)
+    @Html.ValidationMessageFor(model => model.Input)
+        
+    <input type="submit" value="Should I stay or should I go?" />
+}

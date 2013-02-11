@@ -1,0 +1,19 @@
+﻿@using TimeTracker.Indexes
+@model IOrderedQueryable<TimeTracker.Indexes.TotalWorkByUserAndDay.Result>
+
+@{
+    ViewBag.Title = "All logs";
+}
+
+<h1>All time logged</h1>
+<table>
+    <thead>
+        <tr><th>Start</th><th>End</th></tr>
+    </thead>
+    <tbody>
+        @foreach (TotalWorkByUserAndDay.Result log in Model)
+        {
+            <tr><td>@log.Date.ToShortDateString()</td><td>@log.TotalAmountOfWork.TotalHours.ToString("N1")</td></tr>
+        }
+    </tbody>
+</table>
