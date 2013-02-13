@@ -3,8 +3,24 @@ using System.Globalization;
 
 namespace TimeTracker.ViewModels
 {
+    public class FullCustomForm
+    {
+        public FullCustomForm()
+        {
+            StartDate = DateTime.Now.Date;
+            StartTime = TimeSpan.Zero;
+            EndTime = TimeSpan.Zero;
+        }
+
+        public DateTime StartDate { get; set; }
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
+
+    }
+
     public class ShortTimeLogForm
     {
+        public int Id { get; set; }
         public string Input { get; set; }
 
         public DatePart Parse()

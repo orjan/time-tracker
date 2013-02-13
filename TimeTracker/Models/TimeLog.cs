@@ -7,7 +7,6 @@ namespace TimeTracker.Models
         public TimeLog()
         {
             StartTime = DateTime.MinValue;
-            StopTime = DateTime.MinValue;
             Time = TimeSpan.Zero;
         }
 
@@ -15,14 +14,16 @@ namespace TimeTracker.Models
         public int UserId { get; set; }
         
         public DateTime StartTime { get; set; }
-        public DateTime StopTime { get; set; }
         public TimeSpan Time { get; set; }
 
         public void Stop(DateTime stopTime)
         {
-            StopTime = stopTime;
             Time = stopTime.Subtract(StartTime);
         }
 
+        public bool IsOpen()
+        {
+            return Time.Equals(TimeSpan.Zero);
+        }
     }
 }

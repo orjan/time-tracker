@@ -88,7 +88,6 @@ namespace TimeTracker.Queries
                        {
                            UserId = 1,
                            StartTime = startDate,
-                           StopTime = startDate.Add(time),
                            Time = time
                        };
         }

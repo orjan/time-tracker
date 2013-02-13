@@ -1,4 +1,5 @@
-﻿@using TimeTracker.ViewModels
+﻿@using TimeTracker.Models
+@using TimeTracker.ViewModels
 @model IEnumerable<TimeTracker.Models.TimeLog>
 @{
 
@@ -6,20 +7,26 @@
 }
 
 <h1>Time time time</h1>
+@Html.Partial("FullCustom", new FullCustomForm())
 
-@Html.Partial("SubmitTimeLog", new ShortTimeLogForm())
-
-@foreach (var m in Model)
+@foreach (TimeLog m in Model)
 {
-        <strong>@m.StartTime.Date.ToShortDateString()</strong><br />
-    
+    <strong>@m.StartTime.Date.ToShortDateString()</strong>
+    <br />
+
     <div class="well">
         <strong>@m.StartTime.ToShortTimeString()</strong><i class="icon-chevron-right"></i>
-        <strong>@m.StopTime.ToShortTimeString()</strong><i class="icon-chevron-right"></i>
         <strong>@m.Time.TotalHours.ToString("N1")h</strong>
-        <button class="close"><i class="icon-trash"></i></button>
         
+        @if (m.IsOpen())
+        {
+            @Html.Partial("SubmitTimeLog", new ShortTimeLogForm {Id = m.Id})
+        }
+
+
+
+        @using(Html.BeginForm("Delete", "Home", new {id = m.Id}, FormMethod.Post)) {
+            <button class="close"><i class="icon-trash"></i></button>
+        }
     </div>
-        
-        
 }

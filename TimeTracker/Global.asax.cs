@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -23,6 +24,9 @@ namespace TimeTracker
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            ModelBinders.Binders.Add(typeof (TimeSpan), new TimeBinder());
+
 
             DocumentStore = new DocumentStore
                                 {
@@ -49,6 +53,26 @@ namespace TimeTracker
                     HttpContext.Current.User = CustomPrincipal.Deserialize(authTicket.UserData);
                 }
             }
+        }
+    }
+
+    public class TimeBinder : IModelBinder
+    {
+        public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        {
+            // Ensure there's incomming data
+            string key = bindingContext.ModelName;
+            ValueProviderResult valueProviderResult = bindingContext.ValueProvider.GetValue(key);
+
+            if (valueProviderResult == null || string.IsNullOrEmpty(valueProviderResult.AttemptedValue))
+            {
+                return null;
+            }
+
+            // Preserve it in case we need to redisplay the form
+            bindingContext.ModelState.SetModelValue(key, valueProviderResult);
+
+            return TimeSpan.ParseExact(valueProviderResult.AttemptedValue, "hhmm", CultureInfo.InvariantCulture);
         }
     }
 }
