@@ -21,31 +21,10 @@ namespace TimeTracker.Controllers
             return View(logs);
         }
 
-        [HttpPost]
-        public ActionResult RegisterTime(ShortTimeLogForm timeLogFormat)
+        public TimeZoneInfo DefaultTimeZone()
         {
-            DateTime currentTime = timeLogFormat.Parse().CalculateDateTime();
-
-            TimeLog timeLog = DocumentSession.Query<TimeLog>()
-                                             .SingleOrDefault(
-                                                 t => t.UserId == Principal.Id && t.Time.Equals(TimeSpan.Zero));
-
-            if (timeLog == null)
-            {
-                timeLog = new TimeLog
-                              {
-                                  StartTime = currentTime,
-                                  UserId = Principal.Id
-                              };
-            }
-            else
-            {
-                timeLog.Stop(currentTime);
-            }
-
-            DocumentSession.Store(timeLog);
-
-            return RedirectToAction("Index");
+            // TODO: this should be loaded from the user, but set this +1 to start with
+            return TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
         }
 
         [HttpPost]
@@ -53,12 +32,15 @@ namespace TimeTracker.Controllers
         {
             var startTime = fullCustomForm.StartDate.Add(StartTime(fullCustomForm));
 
+            var dateTimeOffset = new DateTimeOffset(startTime, DefaultTimeZone().BaseUtcOffset);
+
             var timeLog = new TimeLog()
                               {
                                   UserId = Principal.Id,
-                                  StartTime = startTime
+                                  StartTime = dateTimeOffset
                               };
 
+            // Time in this case is independent of startTime
             if (!fullCustomForm.EndTime.Equals(TimeSpan.Zero))
             {
                 timeLog.Time = fullCustomForm.EndTime.Subtract(fullCustomForm.StartTime);

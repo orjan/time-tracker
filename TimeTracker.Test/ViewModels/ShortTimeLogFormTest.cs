@@ -51,5 +51,15 @@ namespace TimeTracker.ViewModels
 
             datePart.CalculateDateTime();
         }
+
+        [Fact]
+        public void X()
+        {
+            var readOnlyCollection = TimeZoneInfo.GetSystemTimeZones();
+            foreach (var timeZoneInfo in readOnlyCollection)
+            {
+                Console.WriteLine(timeZoneInfo.Id);
+            }
+        }
     }
 }
