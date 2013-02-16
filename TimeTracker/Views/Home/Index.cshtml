@@ -1,15 +1,15 @@
-﻿@using TimeTracker.Models
+﻿@using NodaTime
+@using TimeTracker.Models
 @using TimeTracker.ViewModels
-@model IEnumerable<TimeTracker.Models.TimeLog>
+@model TimeTracker.Controllers.IndexViewModel
 @{
-
     ViewBag.Title = "Index";
 }
 
 <h1>Time time time</h1>
-@Html.Partial("FullCustom", new FullCustomForm())
+@Html.Partial("FullCustomForm", Model.Form)
 
-@foreach (TimeLog m in Model)
+@foreach (TimeLog m in Model.Logs)
 {
     <strong>@m.StartTime.Date.ToShortDateString()</strong>
     <br />
@@ -18,14 +18,12 @@
         @TimeZoneInfo.ConvertTimeBySystemTimeZoneId(m.StartTime, "W. Europe Standard Time").ToString();
 
         <strong>@m.StartTime.ToString()</strong><i class="icon-chevron-right"></i>
-        <strong>@m.Time.TotalHours.ToString("N1")h</strong>
+        <strong>@m.Duration.TotalHours.ToString("N1")h</strong>
         
         @if (m.IsOpen())
         {
-            @Html.Partial("SubmitTimeLog", new ShortTimeLogForm {Id = m.Id})
+            <em>Close this work</em>
         }
-
-
 
         @using(Html.BeginForm("Delete", "Home", new {id = m.Id}, FormMethod.Post)) {
             <button class="close"><i class="icon-trash"></i></button>

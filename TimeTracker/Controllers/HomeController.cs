@@ -2,65 +2,53 @@
 using System.Linq;
 using System.Security;
 using System.Web.Mvc;
+using NodaTime;
 using TimeTracker.Indexes;
 using TimeTracker.Models;
 using TimeTracker.ViewModels;
 
 namespace TimeTracker.Controllers
 {
+    public class IndexViewModel
+    {
+        public IOrderedQueryable<TimeLog> Logs { get; set; }
+
+        public FullCustomForm Form { get; set; }
+    }
+
     [Authorize]
     public class HomeController : DocumentController
     {
+        private NodaTime.DateTimeZone defaultTimeZone = DateTimeZoneProviders.Default["Europe/Stockholm"];
+
         public ActionResult Index()
         {
             var logs =
                 DocumentSession.Query<TimeLog>()
                                .Where(x => (x.UserId == Principal.Id)).OrderByDescending(z=>z.StartTime);
 
+            // TODO: setup fullcustom form as a model
+            var zonedDateTime = new ZonedDateTime(SystemClock.Instance.Now, defaultTimeZone);
+            
 
-            return View(logs);
-        }
-
-        public TimeZoneInfo DefaultTimeZone()
-        {
-            // TODO: this should be loaded from the user, but set this +1 to start with
-            return TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
+            return View(new IndexViewModel
+                            {
+                                Logs = logs,
+                                Form = new FullCustomForm() {Date = zonedDateTime.LocalDateTime.Date}
+                            });
         }
 
         [HttpPost]
         public ActionResult FullCustom(FullCustomForm fullCustomForm)
         {
-            var startTime = fullCustomForm.StartDate.Add(StartTime(fullCustomForm));
+            var fullCustomFormTimeLogConverter = new FullCustomFormTimeLogConverter(SystemClock.Instance);
 
-            var dateTimeOffset = new DateTimeOffset(startTime, DefaultTimeZone().BaseUtcOffset);
-
-            var timeLog = new TimeLog()
-                              {
-                                  UserId = Principal.Id,
-                                  StartTime = dateTimeOffset
-                              };
-
-            // Time in this case is independent of startTime
-            if (!fullCustomForm.EndTime.Equals(TimeSpan.Zero))
-            {
-                timeLog.Time = fullCustomForm.EndTime.Subtract(fullCustomForm.StartTime);
-            }
+            var timeLog = fullCustomFormTimeLogConverter.Convert(fullCustomForm);
+            timeLog.UserId = Principal.Id;
 
             DocumentSession.Store(timeLog);
 
             return RedirectToAction("Index");
-        }
-
-        private static TimeSpan StartTime(FullCustomForm fullCustomForm)
-        {
-            if (!fullCustomForm.StartTime.Equals(TimeSpan.Zero))
-            {
-                return fullCustomForm.StartTime;
-            }
-            
-            var now = DateTime.Now;
-            var timeSpan = now.Subtract(now.Date);
-            return timeSpan;
         }
 
         [HttpPost]

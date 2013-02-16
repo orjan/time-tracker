@@ -1,8 +1,0 @@
-﻿@model TimeTracker.ViewModels.ShortTimeLogForm
-
-@using (Html.BeginForm("RegisterTime", "Home", FormMethod.Post, new { @class = "form-inline" }))
-{
-    @Html.EditorFor(model => model.Input)
-        
-    <button type="submit" class="btn">Add work</button>
-}

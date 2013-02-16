@@ -7,17 +7,17 @@ namespace TimeTracker.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         public DateTimeOffset StartTime { get; set; }
-        public TimeSpan Time { get; set; }
+        public TimeSpan Duration { get; set; }
 
         public TimeLog()
         {
             StartTime = DateTimeOffset.MinValue;
-            Time = TimeSpan.Zero;
+            Duration = TimeSpan.Zero;
         }
 
         public bool IsOpen()
         {
-            return Time.Equals(TimeSpan.Zero);
+            return Duration.Equals(TimeSpan.Zero);
         }
     }
 }

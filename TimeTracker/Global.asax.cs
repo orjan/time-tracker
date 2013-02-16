@@ -5,9 +5,13 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
+using NodaTime;
+using NodaTime.Text;
 using Raven.Client.Document;
 using Raven.Client.Indexes;
 using TimeTracker.Models;
+using TimeTracker.ViewModels.Binders;
+using TimeTracker.ViewModels.Binders.Noda;
 
 namespace TimeTracker
 {
@@ -25,8 +29,9 @@ namespace TimeTracker
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            ModelBinders.Binders.Add(typeof (TimeSpan), new TimeBinder());
-
+            ModelBinders.Binders.Add(typeof (TimeSpan), new TimeSpanBinder());
+            ModelBinders.Binders.Add(typeof (LocalTime), new LocalTimeBinder());
+            ModelBinders.Binders.Add(typeof (LocalDate), new LocalDateBinder());
 
             DocumentStore = new DocumentStore
                                 {
@@ -56,23 +61,6 @@ namespace TimeTracker
         }
     }
 
-    public class TimeBinder : IModelBinder
-    {
-        public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
-        {
-            // Ensure there's incomming data
-            string key = bindingContext.ModelName;
-            ValueProviderResult valueProviderResult = bindingContext.ValueProvider.GetValue(key);
 
-            if (valueProviderResult == null || string.IsNullOrEmpty(valueProviderResult.AttemptedValue))
-            {
-                return null;
-            }
 
-            // Preserve it in case we need to redisplay the form
-            bindingContext.ModelState.SetModelValue(key, valueProviderResult);
-
-            return TimeSpan.ParseExact(valueProviderResult.AttemptedValue, "hhmm", CultureInfo.InvariantCulture);
-        }
-    }
 }

@@ -10,12 +10,12 @@ namespace TimeTracker.Indexes
         public TotalWorkByUserAndDay()
         {
             Map = logs => from log in logs
-                          where log.Time > TimeSpan.Zero
+                          where log.Duration > TimeSpan.Zero
                           select new Result
                                      {
                                          UserId = log.UserId,
                                          Date = log.StartTime.Date,
-                                         TotalAmountOfWork = log.Time,
+                                         TotalAmountOfWork = log.Duration,
                                      };
 
             Reduce = timeLogs => from log in timeLogs

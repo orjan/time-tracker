@@ -57,6 +57,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DotNetOpenAuth.OpenId.Core.4.2.1.13026\lib\net45-full\Mono.Math.dll</HintPath>
     </Reference>
+    <Reference Include="NodaTime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NodaTime.1.0.1\lib\net35-Client\NodaTime.dll</HintPath>
+    </Reference>
     <Reference Include="Org.Mentalis.Security.Cryptography, Version=4.2.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DotNetOpenAuth.OpenId.Core.4.2.1.13026\lib\net45-full\Org.Mentalis.Security.Cryptography.dll</HintPath>
@@ -144,7 +148,11 @@
     <Compile Include="Models\TimeLog.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\ShortTimeLogForm.cs" />
+    <Compile Include="ViewModels\Binders\TimeSpanBinder.cs" />
+    <Compile Include="ViewModels\Binders\Noda\LocalDateBinder.cs" />
+    <Compile Include="ViewModels\Binders\Noda\LocalTimeBinder.cs" />
+    <Compile Include="ViewModels\Binders\Noda\NodaModelBinder.cs" />
+    <Compile Include="ViewModels\FullCustomForm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -184,9 +192,6 @@
     <Content Include="Views\Authentication\LogOn.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\SubmitTimeLog.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Status\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -197,7 +202,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\FullCustom.cshtml" />
+    <Content Include="Views\Home\FullCustomForm.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -53,7 +53,7 @@ namespace TimeTracker.Queries
                                                              {
                                                                  g.Key.UserId,
                                                                  g.Key.Date,
-                                                                 TotalTime = new TimeSpan(g.Sum(x => x.Time.Ticks))
+                                                                 TotalTime = new TimeSpan(g.Sum(x => x.Duration.Ticks))
                                                              });
 
                 Assert.Equal(TimeSpan.FromHours(4), queryable.First().TotalTime);
@@ -88,7 +88,7 @@ namespace TimeTracker.Queries
                        {
                            UserId = 1,
                            StartTime = startDate,
-                           Time = time
+                           Duration = time
                        };
         }
     }

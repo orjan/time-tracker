@@ -2,7 +2,7 @@
 
 @using (Html.BeginForm("FullCustom", "Home", FormMethod.Post, new {@class = "form-inline"}))
 {
-    @Html.TextBoxFor(model => model.StartDate, new {@Value = DateTime.Now.Date.ToShortDateString()})
+    @Html.TextBoxFor(model => model.Date, new {@Value = DateTime.Now.Date.ToShortDateString()})
 
     @Html.TextBoxFor(model => model.StartTime, new {@Value = string.Empty, @placeholder = "0900"})
 

@@ -63,7 +63,6 @@ namespace TimeTracker.Controllers
 
                         return Redirect("/");
 
-                        break;
                     case AuthenticationStatus.Canceled:
                         ModelState.AddModelError("loginIdentifier",
                                                  "Login was cancelled at the provider");
