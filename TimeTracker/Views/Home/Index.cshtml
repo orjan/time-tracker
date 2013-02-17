@@ -11,14 +11,10 @@
 
 @foreach (TimeLog m in Model.Logs)
 {
-    <strong>@m.StartTime.Date.ToShortDateString()</strong>
-    <br />
-
     <div class="well">
-        @TimeZoneInfo.ConvertTimeBySystemTimeZoneId(m.StartTime, "W. Europe Standard Time").ToString();
+        <strong>@m.StartTime.Date.ToShortDateString()</strong><br />
 
-        <strong>@m.StartTime.ToString()</strong><i class="icon-chevron-right"></i>
-        <strong>@m.Duration.TotalHours.ToString("N1")h</strong>
+        @m.StartTime.TimeOfDay<i class="icon-chevron-right"></i>@m.Duration.TotalHours.ToString("N1")h
         
         @if (m.IsOpen())
         {
