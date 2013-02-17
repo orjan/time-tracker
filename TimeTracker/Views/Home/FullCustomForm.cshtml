@@ -1,12 +1,20 @@
-﻿@model TimeTracker.ViewModels.FullCustomForm
+﻿@using System.Globalization
+@model TimeTracker.ViewModels.FullCustomForm
 
-@using (Html.BeginForm("FullCustom", "Home", FormMethod.Post, new {@class = "form-inline"}))
+@using (Html.BeginForm("FullCustom", "Home", FormMethod.Post))
 {
-    @Html.TextBoxFor(model => model.Date, new {@Value = DateTime.Now.Date.ToShortDateString()})
+    <fieldset>
+        <legend>Submit some work</legend>
+        @Html.LabelFor(m => m.Date)
+        @Html.TextBoxFor(model => model.Date, new {@Value = Model.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), @class = "date-picker", @autofocus="autofocus"})
 
-    @Html.TextBoxFor(model => model.StartTime, new {@Value = string.Empty, @placeholder = "0900"})
+    
+        @Html.LabelFor(m => m.StartTime)
+        @Html.TextBoxFor(model => model.StartTime, new {@Value = string.Empty, @placeholder = "0900"})
 
-    @Html.TextBoxFor(model => model.EndTime, new {@Value = string.Empty, @placeholder = "1700"})
+        @Html.LabelFor(m => m.EndTime)
+        @Html.TextBoxFor(model => model.EndTime, new {@Value = string.Empty, @placeholder = "1700"})
+    </fieldset>    
 
     <button type="submit" class="btn">Add work</button>
 }

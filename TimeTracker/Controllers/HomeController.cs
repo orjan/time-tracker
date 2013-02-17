@@ -29,12 +29,14 @@ namespace TimeTracker.Controllers
 
             // TODO: setup fullcustom form as a model
             var zonedDateTime = new ZonedDateTime(SystemClock.Instance.Now, defaultTimeZone);
-            
+
+            LocalDate localDate = TempData["prev-date"] is LocalDate ? (LocalDate)TempData["prev-date"] : zonedDateTime.LocalDateTime.Date;
+
 
             return View(new IndexViewModel
                             {
                                 Logs = logs,
-                                Form = new FullCustomForm() {Date = zonedDateTime.LocalDateTime.Date}
+                                Form = new FullCustomForm() {Date = localDate}
                             });
         }
 
@@ -47,6 +49,8 @@ namespace TimeTracker.Controllers
             timeLog.UserId = Principal.Id;
 
             DocumentSession.Store(timeLog);
+
+            TempData["prev-date"] = fullCustomForm.Date;
 
             return RedirectToAction("Index");
         }

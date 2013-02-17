@@ -24,8 +24,11 @@ namespace TimeTracker.ViewModels
             var between = Period.Between(new LocalTime(7, 0), new LocalTime(17, 0));
             var between2 = Period.Between(new LocalTime(7, 0), new LocalTime(6, 0));
 
-            int j = 1;
 
+            var dateTimeOffset = SystemClock.Instance.Now.ToDateTimeOffset();
+            var fromDateTimeOffset = ZonedDateTime.FromDateTimeOffset(dateTimeOffset);
+
+            int j = 1;
         }
     }
 }

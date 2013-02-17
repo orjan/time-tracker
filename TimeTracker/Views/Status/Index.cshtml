@@ -1,19 +1,31 @@
-﻿@using TimeTracker.Indexes
-@model IOrderedQueryable<TimeTracker.Indexes.TotalWorkByUserAndDay.Result>
+﻿@using System.Globalization
+@using TimeTracker.Indexes
+@model IEnumerable<IGrouping<int, TimeTracker.Controllers.StatusController.AggregateWorkViewModel>>
 
 @{
     ViewBag.Title = "All logs";
 }
 
 <h1>All time logged</h1>
-<table>
-    <thead>
-        <tr><th>Start</th><th>End</th></tr>
-    </thead>
-    <tbody>
-        @foreach (TotalWorkByUserAndDay.Result log in Model)
+@foreach (var week in Model)
         {
-            <tr><td>@log.Date.ToShortDateString()</td><td>@log.TotalAmountOfWork.TotalHours.ToString("N1")</td></tr>
+<h2>Week: @week.Key</h2>
+    
+            <table class="table table-bordered">
+                <thead>
+                    <tr><th>Date</th><th>Amount of work</th></tr>
+                </thead>
+                <tbody>
+      
+            
+                    @foreach (var log in week)
+                    {
+                    <tr>
+                        <td>@log.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)</td><td>@log.AmountOfWork.ToTimeSpan().TotalHours.ToString("N1")</td>
+
+                    </tr>    
+                    } 
+                </tbody>
+            </table>
         }
-    </tbody>
-</table>
+    
