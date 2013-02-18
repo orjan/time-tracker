@@ -152,7 +152,9 @@
     <Compile Include="ViewModels\Binders\Noda\LocalDateBinder.cs" />
     <Compile Include="ViewModels\Binders\Noda\LocalTimeBinder.cs" />
     <Compile Include="ViewModels\Binders\Noda\NodaModelBinder.cs" />
+    <Compile Include="ViewModels\CloseTimeLog.cs" />
     <Compile Include="ViewModels\FullCustomForm.cs" />
+    <Compile Include="ViewModels\FullCustomFormTimeLogConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -244,6 +246,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\FullCustomForm.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\CloseTimeLogForm.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

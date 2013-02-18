@@ -1,0 +1,14 @@
+﻿@model TimeTracker.ViewModels.CloseTimeLog
+
+@using (Html.BeginForm("CloseTimeLog", "Home", FormMethod.Post, new { @class = "form-inline" }))
+{
+    <fieldset>
+        <legend>Close timelog</legend>
+        @Html.HiddenFor(m => m.TimeLogId)
+
+        @Html.LabelFor(m => m.EndTime)
+        @Html.TextBoxFor(model => model.EndTime, new {@Value = string.Empty, @placeholder = "1700"})
+    </fieldset>    
+
+    <button type="submit" class="btn">Close log</button>
+}

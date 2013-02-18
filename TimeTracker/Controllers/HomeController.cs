@@ -56,6 +56,25 @@ namespace TimeTracker.Controllers
         }
 
         [HttpPost]
+        public ActionResult CloseTimeLog(CloseTimeLog closeTimeLog)
+        {
+            var timeLog = DocumentSession.Load<TimeLog>(closeTimeLog.TimeLogId);
+
+            if (timeLog.UserId != Principal.Id)
+            {
+                throw new Exception("It's not possible to delete another users timelog...");
+            }
+
+            var fromDateTimeOffset = ZonedDateTime.FromDateTimeOffset(timeLog.StartTime);
+            var between = Period.Between(fromDateTimeOffset.LocalDateTime.TimeOfDay, closeTimeLog.EndTime);
+            timeLog.Duration = between.ToDuration().ToTimeSpan();
+
+            DocumentSession.Store(timeLog);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
         public ActionResult Delete(int id)
         {
             var timeLog = DocumentSession.Load<TimeLog>(id);
