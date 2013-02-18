@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using NodaTime;
 using Raven.Client;
 using TimeTracker.Models;
 
@@ -35,6 +36,14 @@ namespace TimeTracker.Controllers
                 if (HttpContext.User is CustomPrincipal)
                     return (CustomPrincipal) HttpContext.User;
                 return null;
+            }
+        }
+
+        public DateTimeZone CurrentTimeZone
+        {
+            get
+            {
+                return DateTimeZoneProviders.Default[Principal.DateTimeZone];
             }
         }
     }

@@ -19,19 +19,14 @@ namespace TimeTracker.Controllers
     [Authorize]
     public class HomeController : DocumentController
     {
-        private NodaTime.DateTimeZone defaultTimeZone = DateTimeZoneProviders.Default["Europe/Stockholm"];
-
         public ActionResult Index()
         {
             var logs =
                 DocumentSession.Query<TimeLog>()
                                .Where(x => (x.UserId == Principal.Id)).OrderByDescending(z=>z.StartTime);
 
-            // TODO: setup fullcustom form as a model
-            var zonedDateTime = new ZonedDateTime(SystemClock.Instance.Now, defaultTimeZone);
-
-            LocalDate localDate = TempData["prev-date"] is LocalDate ? (LocalDate)TempData["prev-date"] : zonedDateTime.LocalDateTime.Date;
-
+            var zonedDateTime = new ZonedDateTime(SystemClock.Instance.Now, CurrentTimeZone);
+            var localDate = TempData["prev-date"] is LocalDate ? (LocalDate)TempData["prev-date"] : zonedDateTime.LocalDateTime.Date;
 
             return View(new IndexViewModel
                             {

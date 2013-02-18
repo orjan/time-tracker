@@ -5,9 +5,15 @@ namespace TimeTracker.Models
 {
     public class User
     {
+        public User()
+        {
+            DateTimeZone = "Europe/Stockholm";
+        }
+
         public int Id { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
+        public string DateTimeZone { get; set; }
         public string ClaimedIdentifier { get; set; }
 
         public string Serialize()
@@ -16,7 +22,8 @@ namespace TimeTracker.Models
                                                    {
                                                        Email = Email,
                                                        Id = Id,
-                                                       Fullname = FullName
+                                                       Fullname = FullName,
+                                                       DateTimeZone = DateTimeZone
                                                    });
         }
     }
@@ -26,16 +33,18 @@ namespace TimeTracker.Models
         int Id { get; set; }
         string Fullname { get; set; }
         string Email { get; set; }
+        string DateTimeZone { get; set; }
     }
 
     public class CustomPrincipal : ICustomPrincipal
     {
-        private CustomPrincipal(SerializePrincipal serializePrincipal)
+        private CustomPrincipal(SerializePrincipal serializedPrincipal)
         {
-            Identity = new GenericIdentity(serializePrincipal.Email);
-            Id = serializePrincipal.Id;
-            Fullname = serializePrincipal.Fullname;
-            Email = serializePrincipal.Email;
+            Identity = new GenericIdentity(serializedPrincipal.Email);
+            Id = serializedPrincipal.Id;
+            Fullname = serializedPrincipal.Fullname;
+            Email = serializedPrincipal.Email;
+            DateTimeZone = serializedPrincipal.DateTimeZone;
         }
 
         public IIdentity Identity { get; private set; }
@@ -48,6 +57,7 @@ namespace TimeTracker.Models
         public int Id { get; set; }
         public string Fullname { get; set; }
         public string Email { get; set; }
+        public string DateTimeZone { get; set; }
 
         public static IPrincipal Deserialize(string json)
         {
@@ -61,5 +71,6 @@ namespace TimeTracker.Models
         public int Id { get; set; }
         public string Fullname { get; set; }
         public string Email { get; set; }
+        public string DateTimeZone { get; set; }
     }
 }
