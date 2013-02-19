@@ -60,13 +60,29 @@ namespace TimeTracker.Controllers
                 throw new Exception("It's not possible to delete another users timelog...");
             }
 
-            var fromDateTimeOffset = ZonedDateTime.FromDateTimeOffset(timeLog.StartTime);
-            var between = Period.Between(fromDateTimeOffset.LocalDateTime.TimeOfDay, closeTimeLog.EndTime);
-            timeLog.Duration = between.ToDuration().ToTimeSpan();
+            var duration = Duration(closeTimeLog, timeLog.StartTime);
+
+            timeLog.Duration = duration;
 
             DocumentSession.Store(timeLog);
 
             return RedirectToAction("Index");
+        }
+
+        private TimeSpan Duration(CloseTimeLog closeTimeLog, DateTimeOffset timeLog)
+        {
+            var fromDateTimeOffset = ZonedDateTime.FromDateTimeOffset(timeLog);
+            var localTime = closeTimeLog.EndTime;
+            
+            if (localTime.Equals(LocalTime.Midnight))
+            {
+                var zonedDateTime = new ZonedDateTime(SystemClock.Instance.Now, CurrentTimeZone);
+                localTime = zonedDateTime.LocalDateTime.TimeOfDay;
+            }
+
+            var between = Period.Between(fromDateTimeOffset.LocalDateTime.TimeOfDay, localTime);
+            var duration = between.ToDuration().ToTimeSpan();
+            return duration;
         }
 
         [HttpPost]
