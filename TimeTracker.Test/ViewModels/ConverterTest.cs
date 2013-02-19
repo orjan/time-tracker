@@ -30,5 +30,15 @@ namespace TimeTracker.ViewModels
 
             int j = 1;
         }
+
+        [Fact]
+        public void FactMethodName3()
+        {
+            foreach (var VARIABLE in 
+            NodaTime.DateTimeZoneProviders.Default.Ids)
+            {
+                
+            }
+        }
     }
 }

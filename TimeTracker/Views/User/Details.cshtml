@@ -1,0 +1,23 @@
+﻿@model TimeTracker.Controllers.UserDetailsViewModel
+
+@{
+    ViewBag.Title = "User details";
+}
+
+<h2>User details</h2>
+@using (Html.BeginForm("UpdateUserDetails", "User", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Contact details</legend>
+        @Html.LabelFor(m=>m.FullName)
+        @Html.TextBoxFor(m=>m.FullName)
+    </fieldset>        
+    
+    <fieldset>
+        <legend>Country and time zone settings</legend>
+        @Html.LabelFor(m=>m.CurrentDateTimeZone)
+        @Html.DropDownListFor(m=>m.CurrentDateTimeZone, Model.TimeZoneIds.Select(t=>new SelectListItem() {Text=t, Value = t}))
+    </fieldset>        
+    
+    <button type="submit" class="btn">Update settings</button>
+}

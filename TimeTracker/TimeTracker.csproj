@@ -140,6 +140,7 @@
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -249,6 +250,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\CloseTimeLogForm.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\User\Details.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

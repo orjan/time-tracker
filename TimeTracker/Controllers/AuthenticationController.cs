@@ -61,7 +61,12 @@ namespace TimeTracker.Controllers
                         
                         LoginUser(user);
 
-                        return Redirect("/");
+                        if (string.IsNullOrEmpty(user.FullName))
+                        {
+                            return RedirectToAction("Details", "User");
+                        }
+
+                        return RedirectToAction("Index", "Home");
 
                     case AuthenticationStatus.Canceled:
                         ModelState.AddModelError("loginIdentifier",
