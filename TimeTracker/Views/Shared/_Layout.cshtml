@@ -1,45 +1,70 @@
 ﻿<!DOCTYPE html>
 <html>
-    <head>
-        <title>@ViewBag.Title - TimeTracker</title>
-        
-        <link href="/Content/bootstrap.css" rel="stylesheet">
-        <style>
-            body { padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */ }
-        </style>
-        <link href="/Content/bootstrap-responsive.css" rel="stylesheet">
-        <link href="/Scripts/bootstrap-datepicker/css/datepicker.css" rel="stylesheet">
-        
-    </head>
-    <body>
-        
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="brand" href="/">TimeTracker</a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li><a href="/status">Status</a></li>
-                        </ul>
-                    </div>
+<head>
+    <title>@ViewBag.Title - TimeTracker</title>
+
+    <link href="/Content/bootstrap.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 60px;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        #main-content {
+            min-height: 100%;
+            margin: 0 auto -60px auto;
+            padding-bottom: 60px;
+        }
+
+
+        #footer {
+            background-color: #f5f5f5;
+            height: 60px;
+        }
+    </style>
+    <link href="/Content/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/Scripts/bootstrap-datepicker/css/datepicker.css" rel="stylesheet">
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="brand" href="/">TimeTracker</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a href="/status">Status</a></li>
+                        <li><a href="/user/details">User details</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-        
+    </div>
 
+    <div id="main-content">
         <div class="container">
             @RenderBody()
         </div>
-        
-        <script src="http://code.jquery.com/jquery-latest.js"> </script>
-        <script src="/Scripts/bootstrap.min.js"></script>
-        <script src="/Scripts/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-        <script src="/Scripts/site.js"></script>
-        @RenderSection("scripts", required: false)
-    </body>
+    </div>
+
+    <div id="footer">
+        <div class="container">
+            <p class="muted credit">Missing a feature, found a bug or just looking for the <a href="https://github.com/orjan/time-tracker">source</a>?</p>
+        </div>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-latest.js"> </script>
+    <script src="/Scripts/bootstrap.min.js"></script>
+    <script src="/Scripts/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="/Scripts/site.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
 </html>

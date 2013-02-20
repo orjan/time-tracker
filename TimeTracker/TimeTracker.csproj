@@ -162,6 +162,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Content\bootstrap-responsive.css" />
+    <Content Include="Content\bootstrap-responsive.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap-datepicker\css\datepicker.css" />
     <Content Include="Scripts\bootstrap-datepicker\js\bootstrap-datepicker.js" />
@@ -203,6 +209,8 @@
     <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.uk.js" />
     <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.zh-CN.js" />
     <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\site.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
