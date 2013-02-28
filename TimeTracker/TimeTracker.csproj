@@ -190,9 +190,6 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Authentication\LogOn.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Status\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +207,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\User\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\StartPage.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

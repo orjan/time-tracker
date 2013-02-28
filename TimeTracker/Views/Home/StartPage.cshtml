@@ -1,0 +1,21 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Getting started";
+}
+
+<div class="hero-unit">
+    <h1>TimeTracker</h1>
+    <p>Easy to use time tracker, give it a try!</p>
+    <p>
+        @using (Html.BeginForm("LogOn", "Authentication", FormMethod.Post, new { @id = "openIdForm" }))
+        {
+            @Html.Hidden("loginIdentifier", "https://www.google.com/accounts/o8/id")
+            <button class="btn btn-primary btn-large">Login with your google account</button>
+        }
+    </p>
+</div>
+
+<div class="alert alert-success">
+    Missing a feature, found a bug or just looking for the <a href="https://github.com/orjan/time-tracker">source</a>?
+</div>

@@ -6,6 +6,7 @@ using TimeTracker.Models;
 
 namespace TimeTracker.Controllers
 {
+    [Authorize]
     public class StatusController : DocumentController
     {
         //

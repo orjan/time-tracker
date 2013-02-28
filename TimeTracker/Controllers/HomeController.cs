@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Security;
 using System.Web.Mvc;
 using NodaTime;
-using TimeTracker.Indexes;
 using TimeTracker.Models;
 using TimeTracker.ViewModels;
 
@@ -16,11 +14,15 @@ namespace TimeTracker.Controllers
         public FullCustomForm Form { get; set; }
     }
 
-    [Authorize]
     public class HomeController : DocumentController
     {
         public ActionResult Index()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return View("StartPage");
+            }
+
             var logs =
                 DocumentSession.Query<TimeLog>()
                                .Where(x => (x.UserId == Principal.Id)).OrderByDescending(z=>z.StartTime);
@@ -35,7 +37,9 @@ namespace TimeTracker.Controllers
                             });
         }
 
+        
         [HttpPost]
+        [Authorize]
         public ActionResult FullCustom(FullCustomForm fullCustomForm)
         {
             var fullCustomFormTimeLogConverter = new FullCustomFormTimeLogConverter(SystemClock.Instance);
@@ -51,6 +55,7 @@ namespace TimeTracker.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult CloseTimeLog(CloseTimeLog closeTimeLog)
         {
             var timeLog = DocumentSession.Load<TimeLog>(closeTimeLog.TimeLogId);
@@ -86,6 +91,7 @@ namespace TimeTracker.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id)
         {
             var timeLog = DocumentSession.Load<TimeLog>(id);
