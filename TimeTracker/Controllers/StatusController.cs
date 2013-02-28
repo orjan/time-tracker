@@ -21,14 +21,14 @@ namespace TimeTracker.Controllers
                                .Where(x => x.UserId == Principal.Id)
                                .ToList()
                                .GroupBy(x => ZonedDateTime.FromDateTimeOffset(x.StartTime).LocalDateTime.Date)
-                               .Select(
-                                   x =>
-                                   new AggregateWorkViewModel
-                                       {
-                                           Date = x.Key,
-                                           AmountOfWork = Duration.FromTicks(x.Sum(y => y.Duration.Ticks))
-                                       }).GroupBy(x => x.Date.WeekOfWeekYear);
-                                       
+                               .Select(x => new AggregateWorkViewModel
+                                                {
+                                                    Date = x.Key,
+                                                    AmountOfWork = Duration.FromTicks(x.Sum(y => y.Duration.Ticks))
+                                                })
+                               .GroupBy(x => x.Date.WeekOfWeekYear)
+                               .OrderByDescending(week => week.Key);
+
 
             return View(logs);
         }
