@@ -1,31 +1,58 @@
-﻿@using System.Globalization
-@using TimeTracker.Indexes
-@model IEnumerable<IGrouping<int, TimeTracker.Controllers.StatusController.AggregateWorkViewModel>>
+﻿@using NodaTime
+@model TimeTracker.Controllers.StatusController.Flumm
 
 @{
-    ViewBag.Title = "All logs";
+    ViewBag.Title = "Your time tracking statistics";
+    var currentDay = LocalDate.FromWeekYearWeekAndDay(Model.FirstDay.WeekYear, Model.FirstDay.WeekOfWeekYear, IsoDayOfWeek.Monday);
 }
 
-<h1>All time logged</h1>
-@foreach (var week in Model)
-        {
-<h2>Week: @week.Key</h2>
-    
-            <table class="table table-bordered">
-                <thead>
-                    <tr><th>Date</th><th>Amount of work</th></tr>
-                </thead>
-                <tbody>
-      
-            
-                    @foreach (var log in week)
-                    {
-                    <tr>
-                        <td>@log.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)</td><td>@log.AmountOfWork.ToTimeSpan().TotalHours.ToString("N1")</td>
+@helper WorkPerDay(LocalDate date)
+{
+    if (@Model.WorkPerDay.ContainsKey(date))
+    {
+        <td>@Model.WorkPerDay[date].AmountOfWork.ToTimeSpan().TotalHours.ToString("N1")</td>
+    }
+    else
+    {
+        <td>&nbsp;</td>    
+    }
+}
 
-                    </tr>    
-                    } 
-                </tbody>
-            </table>
-        }
-    
+
+@for (var weekNumber = Model.FirstDay.WeekOfWeekYear; weekNumber < Model.LastDate.WeekOfWeekYear; weekNumber++)
+{
+    <table class="table table-bordered">
+        <caption>Activity week @weekNumber</caption>
+        <thead>
+            <tr>
+                <th>Activity</th>
+                <th>Mån</th>
+                <th>Tis</th>
+                <th>Ons</th>
+                <th>Tor</th>
+                <th>Fre</th>
+                <th>Lör</th>
+                <th>Sön</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th colspan="8" style="text-align: center">Total amount of work: 28h
+                </th>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr>
+                <td>Work</td>
+                @for (int i = 1; i <= 7; i++)
+                {
+                    @WorkPerDay(currentDay)
+                    currentDay = currentDay.PlusDays(1);
+                }
+            </tr>
+        </tbody>
+    </table>
+}
+
+
+
