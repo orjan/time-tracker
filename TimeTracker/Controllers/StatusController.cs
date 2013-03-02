@@ -16,8 +16,7 @@ namespace TimeTracker.Controllers
         public ActionResult Index()
         {
             // TODO: make use of index when server has been upgraded
-
-            Dictionary<LocalDate, AggregateWorkViewModel> logs =
+            IEnumerable<AggregateWorkViewModel> logs =
                 DocumentSession.Query<TimeLog>()
                                .Where(x => x.UserId == Principal.Id)
                                .ToList()
@@ -26,16 +25,25 @@ namespace TimeTracker.Controllers
                                                 {
                                                     Date = x.Key,
                                                     AmountOfWork = Duration.FromTicks(x.Sum(y => y.Duration.Ticks))
-                                                }).ToDictionary(model => model.Date);
+                                                }).ToList(); // .ToDictionary(model => model.Date);
 
-            var lastDay = logs.Max(x => x.Key);
-            var firstDay = logs.Min(x => x.Key);
+            var z = logs.GroupBy(x => x.Date.WeekOfWeekYear).Select(x => new WeekHolder
+                                                                     {
+                                                                         Week = x.Key, 
+                                                                         Work = Duration.FromTicks(x.Sum(w=>w.AmountOfWork.Ticks)),
+                                                                         BaseLine = Duration.FromHours(x.Count() * 8),
+                                                                         WorkLogs = x.ToDictionary(y=>y.Date),
+                                                                     }).ToDictionary(v=> v.Week);
+
+
+            var lastDay = logs.Max(x => x.Date);
+            var firstDay = logs.Min(x => x.Date);
 
             return View(new Flumm
                             {
                                FirstDay = firstDay,
                                 LastDate = lastDay,
-                                WorkPerDay = logs
+                                WorkPerDay = z
                             });
         }
 
@@ -43,7 +51,7 @@ namespace TimeTracker.Controllers
         {
             public LocalDate FirstDay { get; set; }
             public LocalDate LastDate { get; set; }
-            public IDictionary<LocalDate, AggregateWorkViewModel> WorkPerDay { get; set; }
+            public Dictionary<int, WeekHolder> WorkPerDay { get; set; }
         }
 
 
@@ -66,5 +74,18 @@ namespace TimeTracker.Controllers
             public LocalDate Date { get; set; }
             public Duration AmountOfWork { get; set; }
         }
+    }
+
+    public class WeekHolder
+    {
+        public int Week { get; set; }
+
+        public Duration Work { get; set; }
+
+        public Duration BaseLine { get; set; }
+
+        public Duration Balance { get { return Work-BaseLine; } }
+
+        public Dictionary<LocalDate, StatusController.AggregateWorkViewModel> WorkLogs { get; set; }
     }
 }

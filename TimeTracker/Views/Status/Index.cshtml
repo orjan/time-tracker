@@ -6,23 +6,10 @@
     var currentDay = LocalDate.FromWeekYearWeekAndDay(Model.FirstDay.WeekYear, Model.FirstDay.WeekOfWeekYear, IsoDayOfWeek.Monday);
 }
 
-@helper WorkPerDay(LocalDate date)
-{
-    if (@Model.WorkPerDay.ContainsKey(date))
-    {
-        <td>@Model.WorkPerDay[date].AmountOfWork.ToTimeSpan().TotalHours.ToString("N1")</td>
-    }
-    else
-    {
-        <td>&nbsp;</td>    
-    }
-}
-
-
-@for (var weekNumber = Model.FirstDay.WeekOfWeekYear; weekNumber < Model.LastDate.WeekOfWeekYear; weekNumber++)
+@foreach (var m in Model.WorkPerDay)
 {
     <table class="table table-bordered">
-        <caption>Activity week @weekNumber</caption>
+        <caption>Activity week @m.Value.Week</caption>
         <thead>
             <tr>
                 <th>Activity</th>
@@ -37,7 +24,8 @@
         </thead>
         <tfoot>
             <tr>
-                <th colspan="8" style="text-align: center">Total amount of work: 28h
+                <th colspan="8" style="text-align: center">
+                    Balance: @m.Value.Balance.ToTimeSpan().TotalHours.ToString("N1")
                 </th>
             </tr>
         </tfoot>
@@ -46,13 +34,17 @@
                 <td>Work</td>
                 @for (int i = 1; i <= 7; i++)
                 {
-                    @WorkPerDay(currentDay)
+                    if (m.Value.WorkLogs.ContainsKey(currentDay))
+                    {
+                    <td>@m.Value.WorkLogs[currentDay].AmountOfWork.ToTimeSpan().TotalHours.ToString("N1")</td>
+                    }
+                    else
+                    {
+                    <td>&nbsp;</td>
+                    }
                     currentDay = currentDay.PlusDays(1);
                 }
             </tr>
         </tbody>
     </table>
 }
-
-
-
