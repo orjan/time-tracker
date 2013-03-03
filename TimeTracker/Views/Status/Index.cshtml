@@ -1,15 +1,14 @@
 ﻿@using NodaTime
-@model TimeTracker.Controllers.StatusController.Flumm
+@model TimeTracker.Controllers.StatusController.WorkLogStats
 
 @{
     ViewBag.Title = "Your time tracking statistics";
-    var currentDay = LocalDate.FromWeekYearWeekAndDay(Model.FirstDay.WeekYear, Model.FirstDay.WeekOfWeekYear, IsoDayOfWeek.Monday);
 }
 
 @foreach (var m in Model.WorkPerDay)
 {
     <table class="table table-bordered">
-        <caption>Activity week @m.Value.Week</caption>
+        <caption>Activity week @m.Week</caption>
         <thead>
             <tr>
                 <th>Activity</th>
@@ -25,7 +24,7 @@
         <tfoot>
             <tr>
                 <th colspan="8" style="text-align: center">
-                    Balance: @m.Value.Balance.ToTimeSpan().TotalHours.ToString("N1")
+                    Balance: @m.Balance.ToTimeSpan().TotalHours.ToString("N1")
                 </th>
             </tr>
         </tfoot>
@@ -34,15 +33,15 @@
                 <td>Work</td>
                 @for (int i = 1; i <= 7; i++)
                 {
-                    if (m.Value.WorkLogs.ContainsKey(currentDay))
+                    var isoDayOfWeek = (IsoDayOfWeek) i;
+                    if (m.WorkLogs.ContainsKey(isoDayOfWeek))
                     {
-                    <td>@m.Value.WorkLogs[currentDay].AmountOfWork.ToTimeSpan().TotalHours.ToString("N1")</td>
+                    <td>@m.WorkLogs[isoDayOfWeek].AmountOfWork.ToTimeSpan().TotalHours.ToString("N1")</td>
                     }
                     else
                     {
                     <td>&nbsp;</td>
                     }
-                    currentDay = currentDay.PlusDays(1);
                 }
             </tr>
         </tbody>

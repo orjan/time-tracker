@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using NodaTime;
@@ -16,7 +15,7 @@ namespace TimeTracker.Controllers
         public ActionResult Index()
         {
             // TODO: make use of index when server has been upgraded
-            IEnumerable<AggregateWorkViewModel> logs =
+            var logs =
                 DocumentSession.Query<TimeLog>()
                                .Where(x => x.UserId == Principal.Id)
                                .ToList()
@@ -25,35 +24,36 @@ namespace TimeTracker.Controllers
                                                 {
                                                     Date = x.Key,
                                                     AmountOfWork = Duration.FromTicks(x.Sum(y => y.Duration.Ticks))
-                                                }).ToList(); // .ToDictionary(model => model.Date);
+                                                }).ToList();
 
-            var z = logs.GroupBy(x => x.Date.WeekOfWeekYear).Select(x => new WeekHolder
-                                                                     {
-                                                                         Week = x.Key, 
-                                                                         Work = Duration.FromTicks(x.Sum(w=>w.AmountOfWork.Ticks)),
-                                                                         BaseLine = Duration.FromHours(x.Count() * 8),
-                                                                         WorkLogs = x.ToDictionary(y=>y.Date),
-                                                                     }).ToDictionary(v=> v.Week);
+            var workLogPerWeek = logs.GroupBy(x => x.Date.WeekOfWeekYear)
+                                    .Select(workDays => new WeekHolder 
+                                        {
+                                             Week = workDays.Key,
+                                             Work = Duration.FromTicks(workDays.Sum(w=>w.AmountOfWork.Ticks)),
+                                             BaseLine = Duration.FromHours(workDays.Count()*8),
+                                             WorkLogs = workDays.ToDictionary(y => y.Date.IsoDayOfWeek)
+                                        })
+                                    .OrderByDescending(x=>x.Week);
 
 
-            var lastDay = logs.Max(x => x.Date);
-            var firstDay = logs.Min(x => x.Date);
+            LocalDate lastDay = logs.Max(x => x.Date);
+            LocalDate firstDay = logs.Min(x => x.Date);
 
-            return View(new Flumm
+
+            return View(new WorkLogStats
                             {
-                               FirstDay = firstDay,
+                                FirstDay = firstDay,
                                 LastDate = lastDay,
-                                WorkPerDay = z
+                                WorkPerDay = workLogPerWeek
                             });
         }
 
-        public class Flumm
+        public class AggregateWorkViewModel
         {
-            public LocalDate FirstDay { get; set; }
-            public LocalDate LastDate { get; set; }
-            public Dictionary<int, WeekHolder> WorkPerDay { get; set; }
+            public LocalDate Date { get; set; }
+            public Duration AmountOfWork { get; set; }
         }
-
 
         public class StatsViewModel
         {
@@ -64,15 +64,16 @@ namespace TimeTracker.Controllers
 
             public Duration WorkLogFor(int w, int y)
             {
-               return  Duration.FromTicks(
+                return Duration.FromTicks(
                     Data[LocalDate.FromWeekYearWeekAndDay(2013, w, (IsoDayOfWeek) y)].Sum(x => x.AmountOfWork.Ticks));
             }
         }
 
-        public class AggregateWorkViewModel
+        public class WorkLogStats
         {
-            public LocalDate Date { get; set; }
-            public Duration AmountOfWork { get; set; }
+            public LocalDate FirstDay { get; set; }
+            public LocalDate LastDate { get; set; }
+            public IOrderedEnumerable<WeekHolder> WorkPerDay { get; set; }
         }
     }
 
@@ -84,8 +85,11 @@ namespace TimeTracker.Controllers
 
         public Duration BaseLine { get; set; }
 
-        public Duration Balance { get { return Work-BaseLine; } }
+        public Duration Balance
+        {
+            get { return Work - BaseLine; }
+        }
 
-        public Dictionary<LocalDate, StatusController.AggregateWorkViewModel> WorkLogs { get; set; }
+        public Dictionary<IsoDayOfWeek, StatusController.AggregateWorkViewModel> WorkLogs { get; set; }
     }
 }
