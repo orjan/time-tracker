@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using NodaTime;
 using Raven.Client;
+using Raven.Client.Linq;
 using TimeTracker.Indexes;
 using TimeTracker.Models;
 using Xunit;
@@ -35,13 +37,14 @@ namespace TimeTracker.Queries
             }
         }
 
-        [Fact(Skip = "Timing issue when deploying at midnight use fake IClock")]
+
+        [Fact]
         public void Should_be_able_to_calculate_time()
         {
             using (IDocumentSession session = DocumentStore.OpenSession())
             {
-                session.Store(Entity(DateTime.Now, TimeSpan.FromHours(2)));
-                session.Store(Entity(DateTime.Now.AddHours(1), TimeSpan.FromHours(2)));
+                session.Store(Entity(LocalTime.Noon, TimeSpan.FromHours(2)));
+                session.Store(Entity(LocalTime.Noon.PlusHours(1), TimeSpan.FromHours(2)));
                 session.SaveChanges();
             }
 
@@ -60,34 +63,40 @@ namespace TimeTracker.Queries
             }
         }
 
-        [Fact(Skip = "Timing issue when deploying at midnight use fake IClock")]
+        [Fact]
         public void Should_be_able_to_calculate_time_reduce()
         {
-
             DocumentStore.ExecuteIndex(new TotalWorkByUserAndDay());
 
             using (IDocumentSession session = DocumentStore.OpenSession())
             {
-                session.Store(Entity(DateTime.Now, TimeSpan.FromHours(2)));
-                session.Store(Entity(DateTime.Now.AddHours(1), TimeSpan.FromHours(2)));
+                session.Store(Entity(LocalTime.Noon, TimeSpan.FromHours(2)));
+                session.Store(Entity(LocalTime.Noon.PlusHours(2), TimeSpan.FromHours(2)));
                 session.SaveChanges();
             }
 
             using (IDocumentSession session = DocumentStore.OpenSession())
             {
-                var query = session.Query<TotalWorkByUserAndDay.Result, TotalWorkByUserAndDay>();
+                IRavenQueryable<TotalWorkByUserAndDay.Result> query =
+                    session.Query<TotalWorkByUserAndDay.Result, TotalWorkByUserAndDay>();
 
                 Assert.Equal(TimeSpan.FromHours(4), query.First().TotalAmountOfWork);
-                
             }
         }
 
-        private static TimeLog Entity(DateTime startDate, TimeSpan time)
+        private DateTimeOffset CreateTime(LocalTime localTime)
+        {
+            DateTimeZone dateTimeZone = DateTimeZoneProviders.Default["Europe/Stockholm"];
+            var localDate = new LocalDate(2013, 3, 4);
+            return (localDate + localTime).InZoneStrictly(dateTimeZone).ToDateTimeOffset();
+        }
+
+        private TimeLog Entity(LocalTime startDate, TimeSpan time)
         {
             return new TimeLog
                        {
                            UserId = 1,
-                           StartTime = startDate,
+                           StartTime = CreateTime(startDate),
                            Duration = time
                        };
         }

@@ -31,6 +31,7 @@ namespace TimeTracker.ViewModels
             {
                 timeLog.Duration = between.ToTimeSpan();
             }
+
             return timeLog;
         }
     }
