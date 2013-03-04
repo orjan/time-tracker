@@ -16,6 +16,13 @@ namespace TimeTracker.Controllers
 
     public class HomeController : DocumentController
     {
+        private readonly IClock clock;
+
+        public HomeController(IClock clock)
+        {
+            this.clock = clock;
+        }
+
         public ActionResult Index()
         {
             if (!User.Identity.IsAuthenticated)
@@ -27,7 +34,7 @@ namespace TimeTracker.Controllers
                 DocumentSession.Query<TimeLog>()
                                .Where(x => (x.UserId == Principal.Id)).OrderByDescending(z=>z.StartTime);
 
-            var zonedDateTime = new ZonedDateTime(SystemClock.Instance.Now, CurrentTimeZone);
+            var zonedDateTime = new ZonedDateTime(clock.Now, CurrentTimeZone);
             var localDate = TempData["prev-date"] is LocalDate ? (LocalDate)TempData["prev-date"] : zonedDateTime.LocalDateTime.Date;
 
             return View(new IndexViewModel
@@ -42,7 +49,7 @@ namespace TimeTracker.Controllers
         [Authorize]
         public ActionResult FullCustom(FullCustomForm fullCustomForm)
         {
-            var fullCustomFormTimeLogConverter = new FullCustomFormTimeLogConverter(SystemClock.Instance);
+            var fullCustomFormTimeLogConverter = new FullCustomFormTimeLogConverter(clock);
 
             var timeLog = fullCustomFormTimeLogConverter.Convert(fullCustomForm);
             timeLog.UserId = Principal.Id;
@@ -81,7 +88,7 @@ namespace TimeTracker.Controllers
             
             if (localTime.Equals(LocalTime.Midnight))
             {
-                var zonedDateTime = new ZonedDateTime(SystemClock.Instance.Now, CurrentTimeZone);
+                var zonedDateTime = new ZonedDateTime(clock.Now, CurrentTimeZone);
                 localTime = zonedDateTime.LocalDateTime.TimeOfDay;
             }
 

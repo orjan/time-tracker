@@ -5,6 +5,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
+using Autofac;
+using Autofac.Integration.Mvc;
 using NodaTime;
 using NodaTime.Text;
 using Raven.Client.Document;
@@ -23,6 +25,15 @@ namespace TimeTracker
 
         protected void Application_Start()
         {
+            // Autofac setup
+            var builder = new ContainerBuilder();
+
+            builder.RegisterModule<TimeTrackerAutoFacModule>();
+            builder.RegisterControllers(typeof(MvcApplication).Assembly);
+
+            var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
@@ -32,6 +43,7 @@ namespace TimeTracker
             ModelBinders.Binders.Add(typeof (TimeSpan), new TimeSpanBinder());
             ModelBinders.Binders.Add(typeof (LocalTime), new LocalTimeBinder());
             ModelBinders.Binders.Add(typeof (LocalDate), new LocalDateBinder());
+
 
             DocumentStore = new DocumentStore
                                 {
