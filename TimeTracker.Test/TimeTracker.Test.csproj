@@ -36,8 +36,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\RavenDB.Database.2.0.2261\lib\net40\Esent.Interop.dll</HintPath>
     </Reference>
-    <Reference Include="FluentAssertions">
-      <HintPath>..\packages\FluentAssertions.2.0.0.1\lib\net45\FluentAssertions.dll</HintPath>
+    <Reference Include="FluentAssertions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FluentAssertions.2.0.1\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
     <Reference Include="GeoAPI, Version=1.7.4693.18483, Culture=neutral, PublicKeyToken=a1a0da7def465678, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -80,14 +81,13 @@
     <Reference Include="NodaTime.Testing">
       <HintPath>..\packages\NodaTime.Testing.1.0.1\lib\net35-Client\NodaTime.Testing.dll</HintPath>
     </Reference>
-    <Reference Include="Ploeh.AutoFixture">
-      <HintPath>..\packages\AutoFixture.2.16.2\lib\net35\Ploeh.AutoFixture.dll</HintPath>
+    <Reference Include="Ploeh.AutoFixture, Version=3.0.1.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoFixture.3.0.1\lib\net40\Ploeh.AutoFixture.dll</HintPath>
     </Reference>
-    <Reference Include="Ploeh.AutoFixture.Xunit">
-      <HintPath>..\packages\AutoFixture.Xunit.2.16.2\lib\net35\Ploeh.AutoFixture.Xunit.dll</HintPath>
-    </Reference>
-    <Reference Include="Ploeh.SemanticComparison">
-      <HintPath>..\packages\AutoFixture.2.16.2\lib\net35\Ploeh.SemanticComparison.dll</HintPath>
+    <Reference Include="Ploeh.AutoFixture.Xunit, Version=3.0.1.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoFixture.Xunit.3.0.1\lib\net40\Ploeh.AutoFixture.Xunit.dll</HintPath>
     </Reference>
     <Reference Include="PowerCollections, Version=1.0.4693.18483, Culture=neutral, PublicKeyToken=2573bf8a1bdddcd5, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
