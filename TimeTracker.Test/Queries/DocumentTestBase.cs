@@ -10,9 +10,9 @@ namespace TimeTracker.Queries
         protected DocumentTestBase()
         {
             DocumentStore = new EmbeddableDocumentStore
-                                {
-                                    RunInMemory = true
-                                }
+                            {
+                                RunInMemory = true
+                            }
                 .RegisterListener(new NoStaleQueriesListener());
 
             //  DocumentStore.Conventions.DefaultQueryingConsistency = ConsistencyOptions.QueryYourWrites;

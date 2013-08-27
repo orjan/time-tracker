@@ -37,7 +37,6 @@ namespace TimeTracker.Queries
             }
         }
 
-
         [Fact]
         public void Should_be_able_to_calculate_time()
         {
