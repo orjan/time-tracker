@@ -118,13 +118,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TimeTracker\TimeTracker.csproj">
-      <Project>{827417DD-30D4-4BBF-9FD6-A80754BDE07A}</Project>
-      <Name>TimeTracker</Name>
-    </ProjectReference>
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\" />
+    <ProjectReference Include="..\TimeTracker\TimeTracker.csproj">
+      <Project>{827417dd-30d4-4bbf-9fd6-a80754bde07a}</Project>
+      <Name>TimeTracker</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" />
