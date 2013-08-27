@@ -11,7 +11,7 @@ namespace TimeTracker.ViewModels
         public FullCustomFormTimeLogConverter(IClock clock)
         {
             this.clock = clock;
-            dateTimeZone = DateTimeZoneProviders.Default["Europe/Stockholm"];
+            dateTimeZone = DateTimeZoneProviders.Tzdb["Europe/Stockholm"];
         }
 
         public TimeLog Convert(FullCustomForm form)

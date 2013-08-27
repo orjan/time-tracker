@@ -13,7 +13,7 @@ namespace TimeTracker.Controllers
 
         public UserController()
         {
-            dateTimeZoneProvider = DateTimeZoneProviders.Default;
+            dateTimeZoneProvider = DateTimeZoneProviders.Tzdb;
         }
 
         public ActionResult Details()

@@ -85,7 +85,7 @@ namespace TimeTracker.Queries
 
         private DateTimeOffset CreateTime(LocalTime localTime)
         {
-            DateTimeZone dateTimeZone = DateTimeZoneProviders.Default["Europe/Stockholm"];
+            DateTimeZone dateTimeZone = DateTimeZoneProviders.Tzdb["Europe/Stockholm"];
             var localDate = new LocalDate(2013, 3, 4);
             return (localDate + localTime).InZoneStrictly(dateTimeZone).ToDateTimeOffset();
         }

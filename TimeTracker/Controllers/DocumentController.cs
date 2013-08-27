@@ -43,7 +43,7 @@ namespace TimeTracker.Controllers
         {
             get
             {
-                return DateTimeZoneProviders.Default[Principal.DateTimeZone];
+                return DateTimeZoneProviders.Tzdb[Principal.DateTimeZone];
             }
         }
     }
