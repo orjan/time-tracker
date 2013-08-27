@@ -18,6 +18,8 @@ namespace TimeTracker.ViewModels
         {
             var timeLog = new TimeLog();
 
+
+
             if (form.StartTime.Equals(new LocalTime()))
             {
                 form.StartTime = clock.Now.InZone(dateTimeZone).LocalDateTime.TimeOfDay;
